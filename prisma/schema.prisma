@@ -1,0 +1,123 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String?
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  novedades Novedad[]
+
+  @@map("users")
+}
+
+//------------control de inventarios
+
+model Categoria {
+  id         Int             @id @default(autoincrement())
+  nombre     String
+  prefijo    String          @unique //ET de electronica
+  createdAt  DateTime        @default(now())
+  plantillas PlantillaItem[]
+}
+
+model PlantillaItem {
+  id          Int                   @id @default(autoincrement())
+  nombre      String
+  fabricante  String
+  modelo      String
+  prefijo     String // Ej: BRA
+  categoriaId Int
+  categoria   Categoria             @relation(fields: [categoriaId], references: [id])
+  createdAt   DateTime              @default(now())
+  imagenes    ImagenPlantillaItem[]
+  instancias  Item[]
+}
+
+model Item {
+  id          Int           @id @default(autoincrement())
+  codigo      String        @unique // KL-ET-BRA-1, etc.
+  descripcion String
+  observacion String
+  ubicacion   String
+  estado      String
+  plantillaId Int
+  plantilla   PlantillaItem @relation(fields: [plantillaId], references: [id])
+  createdAt   DateTime      @default(now())
+  piezas      Pieza[]
+  imagenes    ImagenItem[]
+  novedades   Novedad[]
+}
+
+model Pieza {
+  id                   Int                   @id @default(autoincrement())
+  nombre               String
+  cantidad             Int
+  observacion          String
+  estado               String                @default("Disponible")
+  createdAt            DateTime              @default(now())
+  itemId               Int
+  item                 Item                  @relation(fields: [itemId], references: [id])
+  imagenes             ImagenPieza[]
+  novedades            Novedad[]
+  detalleNovedadPiezas DetalleNovedadPieza[]
+}
+
+model ImagenPlantillaItem {
+  id              Int           @id @default(autoincrement())
+  url             String
+  plantillaItemId Int
+  plantillaItem   PlantillaItem @relation(fields: [plantillaItemId], references: [id])
+}
+
+model ImagenItem {
+  id     Int    @id @default(autoincrement())
+  url    String
+  itemId Int
+  item   Item   @relation(fields: [itemId], references: [id])
+}
+
+model ImagenPieza {
+  id      Int    @id @default(autoincrement())
+  url     String
+  piezaId Int
+  pieza   Pieza  @relation(fields: [piezaId], references: [id])
+}
+
+//---reportesss
+model Novedad {
+  id              Int      @id @default(autoincrement())
+  tipo            String // "Dañado", "Perdido", "Cambio de Estado", "Mantenimiento", etc.
+  descripcion     String
+  itemNuevoEstado String? // Para rastrear el cambio de estado del activo principal
+  fecha           DateTime @default(now())
+
+  // Relaciones
+  itemId   Int
+  item     Item                  @relation(fields: [itemId], references: [id])
+  detalles DetalleNovedadPieza[]
+
+  // Auditoría
+  userId  String
+  usuario User   @relation(fields: [userId], references: [id])
+  pieza   Pieza? @relation(fields: [piezaId], references: [id])
+  piezaId Int?
+}
+
+model DetalleNovedadPieza {
+  id          Int     @id @default(autoincrement())
+  novedadId   Int
+  novedad     Novedad @relation(fields: [novedadId], references: [id])
+  piezaId     Int
+  pieza       Pieza   @relation(fields: [piezaId], references: [id])
+  cantidad    Int? // Cantidad de esta pieza afectada
+  nuevoEstado String? // Estado al que pasa la pieza
+}
