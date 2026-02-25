@@ -37,5 +37,9 @@ export const authConfig = {
         },
     },
     providers: [], // Empty for now, filled in auth.ts
+    session: {
+        strategy: "jwt",
+        maxAge: parseInt(process.env.SESSION_MAX_AGE_SECONDS || "3600"),
+    },
     secret: process.env.AUTH_SECRET,
 } satisfies NextAuthConfig;

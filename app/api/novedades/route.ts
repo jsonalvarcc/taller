@@ -33,7 +33,8 @@ export async function POST(req: Request) {
             detalles: detalles?.map((d: any) => ({
                 piezaId: parseInt(d.piezaId),
                 cantidad: d.cantidad ? parseInt(d.cantidad) : undefined,
-                nuevoEstado: d.nuevoEstado
+                nuevoEstado: d.nuevoEstado,
+                descripcion: d.descripcion
             }))
         });
 
@@ -62,11 +63,12 @@ export async function GET(req: Request) {
         const { searchParams } = new URL(req.url);
         const itemId = searchParams.get("itemId");
 
-        if (!itemId) {
-            return NextResponse.json({ error: "itemId es requerido" }, { status: 400 });
+        if (itemId) {
+            const novedades = await novedadRepo.findByItem(parseInt(itemId));
+            return NextResponse.json(novedades);
         }
 
-        const novedades = await novedadRepo.findByItem(parseInt(itemId));
+        const novedades = await novedadRepo.findAll();
         return NextResponse.json(novedades);
     } catch (error: any) {
         console.error("Error in GET /api/novedades:", error);

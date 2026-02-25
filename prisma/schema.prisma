@@ -8,13 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  name      String?
-  email     String    @unique
-  password  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  novedades Novedad[]
+  id               String     @id @default(cuid())
+  name             String?
+  email            String     @unique
+  password         String
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  novedades        Novedad[]
+  prestamosSalida  Prestamo[] @relation("PrestamosSalida")
+  prestamosEntrada Prestamo[] @relation("PrestamosEntrega")
 
   @@map("users")
 }
@@ -43,18 +45,19 @@ model PlantillaItem {
 }
 
 model Item {
-  id          Int           @id @default(autoincrement())
-  codigo      String        @unique // KL-ET-BRA-1, etc.
+  id          Int               @id @default(autoincrement())
+  codigo      String            @unique // KL-ET-BRA-1, etc.
   descripcion String
   observacion String
   ubicacion   String
   estado      String
   plantillaId Int
-  plantilla   PlantillaItem @relation(fields: [plantillaId], references: [id])
-  createdAt   DateTime      @default(now())
+  plantilla   PlantillaItem     @relation(fields: [plantillaId], references: [id])
+  createdAt   DateTime          @default(now())
   piezas      Pieza[]
   imagenes    ImagenItem[]
   novedades   Novedad[]
+  prestamos   DetallePrestamo[]
 }
 
 model Pieza {
@@ -69,6 +72,7 @@ model Pieza {
   imagenes             ImagenPieza[]
   novedades            Novedad[]
   detalleNovedadPiezas DetalleNovedadPieza[]
+  prestamos            DetallePrestamo[]
 }
 
 model ImagenPlantillaItem {
@@ -120,4 +124,44 @@ model DetalleNovedadPieza {
   pieza       Pieza   @relation(fields: [piezaId], references: [id])
   cantidad    Int? // Cantidad de esta pieza afectada
   nuevoEstado String? // Estado al que pasa la pieza
+  descripcion String? // Descripción específica de lo que pasó con esta pieza
+}
+
+model Prestamo {
+  id                   Int       @id @default(autoincrement())
+  tipoUsuario          String // "Estudiante" o "Externo"
+  usuarioIdentificador String // RU o CI
+  usuarioNombre        String
+  fechaSalida          DateTime  @default(now())
+  fechaEstimadaEntrega DateTime
+  fechaRealEntrega     DateTime?
+  estado               String    @default("Vigente") // "Vigente", "Devuelto", "Atrasado"
+
+  // Auditoría
+  userIdSalida   String
+  usuarioSalida  User    @relation("PrestamosSalida", fields: [userIdSalida], references: [id])
+  userIdEntrega  String?
+  usuarioEntrega User?   @relation("PrestamosEntrega", fields: [userIdEntrega], references: [id])
+
+  detalles DetallePrestamo[]
+}
+
+model DetallePrestamo {
+  id         Int      @id @default(autoincrement())
+  prestamoId Int
+  prestamo   Prestamo @relation(fields: [prestamoId], references: [id])
+
+  itemId Int?
+  item   Item? @relation(fields: [itemId], references: [id])
+
+  piezaId Int?
+  pieza   Pieza? @relation(fields: [piezaId], references: [id])
+
+  cantidad Int @default(1)
+
+  // Para la devolución
+  devuelto              Boolean   @default(false)
+  fechaDevolucion       DateTime?
+  estadoDevolucion      String? // "OK", "Dañado", etc.
+  observacionDevolucion String?
 }

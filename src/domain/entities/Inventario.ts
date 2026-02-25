@@ -60,7 +60,9 @@ export class Novedad {
     public readonly userId: string,
     public readonly itemNuevoEstado: string | null = null,
     public readonly usuarioNombre?: string,
-    public readonly detalles?: DetalleNovedadPieza[]
+    public readonly detalles?: DetalleNovedadPieza[],
+    public readonly itemCodigo?: string,
+    public readonly itemImagenes?: string[]
   ) { }
 }
 
@@ -71,6 +73,8 @@ export class DetalleNovedadPieza {
     public readonly piezaId: number,
     public readonly cantidad: number | null,
     public readonly nuevoEstado: string | null,
-    public readonly piezaNombre?: string
+    public readonly descripcion: string | null = null,
+    public readonly piezaNombre?: string,
+    public readonly piezaImagenes?: string[]
   ) { }
 }
