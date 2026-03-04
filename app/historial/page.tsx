@@ -130,7 +130,7 @@ export default function HistorialPage() {
 
           <div className="relative">
             <select
-              className="h-14 pl-6 pr-12 bg-card border border-border/50 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary/10 transition-all cursor-pointer"
+              className="h-14 pl-6 pr-12 bg-card border border-border/50 rounded-2xl font-bold text-sm appearance-none outline-none focus:ring-4 focus:ring-primary/10 transition-all cursor-pointer"
               value={filterTipo}
               onChange={(e) => setFilterTipo(e.target.value)}
             >

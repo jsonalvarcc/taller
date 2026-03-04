@@ -724,7 +724,7 @@ export default function ItemsPage() {
                 Por Categoría
               </label>
               <select
-                className="w-full p-2.5 bg-muted/50 border border-border rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
+                className="w-full p-2.5 bg-muted/50 border border-border rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer appearance-none"
                 value={selectedCategoria}
                 onChange={(e) => setSelectedCategoria(e.target.value)}
               >
@@ -742,7 +742,7 @@ export default function ItemsPage() {
                 Por Estado
               </label>
               <select
-                className="w-full p-2.5 bg-muted/50 border border-border rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
+                className="w-full p-2.5 bg-muted/50 border border-border rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer appearance-none"
                 value={selectedEstado}
                 onChange={(e) => setSelectedEstado(e.target.value)}
               >
@@ -815,7 +815,7 @@ export default function ItemsPage() {
                       Categoría
                     </label>
                     <select
-                      className="w-full p-3.5 border border-border rounded-2xl bg-input text-foreground outline-none focus:ring-4 focus:ring-primary/10 transition-all font-bold cursor-pointer"
+                      className="w-full p-3.5 border border-border rounded-2xl bg-input text-foreground outline-none focus:ring-4 focus:ring-primary/10 transition-all font-bold appearance-none cursor-pointer"
                       value={form.categoriaId}
                       onChange={(e) => {
                         setForm({
@@ -845,7 +845,7 @@ export default function ItemsPage() {
                       Plantilla
                     </label>
                     <select
-                      className="w-full p-3.5 border border-border rounded-2xl bg-input text-foreground outline-none focus:ring-4 focus:ring-primary/10 transition-all font-bold cursor-pointer disabled:opacity-50"
+                      className="w-full p-3.5 border border-border rounded-2xl bg-input text-foreground outline-none focus:ring-4 focus:ring-primary/10 transition-all font-bold appearance-none cursor-pointer disabled:opacity-50"
                       value={form.plantillaId}
                       onChange={(e) => {
                         setForm({ ...form, plantillaId: e.target.value });
@@ -902,7 +902,7 @@ export default function ItemsPage() {
                       Estado
                     </label>
                     <select
-                      className="w-full p-3.5 border border-border rounded-2xl bg-input text-foreground outline-none focus:ring-4 focus:ring-primary/10 transition-all font-bold cursor-pointer"
+                      className="w-full p-3.5 border border-border rounded-2xl bg-input text-foreground outline-none focus:ring-4 focus:ring-primary/10 transition-all font-bold appearance-none cursor-pointer"
                       value={form.estado}
                       onChange={(e) =>
                         setForm({ ...form, estado: e.target.value })
@@ -1875,7 +1875,7 @@ export default function ItemsPage() {
                       Tipo
                     </label>
                     <select
-                      className="w-full h-12 bg-muted/40 border-none rounded-2xl px-4 font-bold text-foreground text-xs focus:ring-2 focus:ring-primary/20 transition-all"
+                      className="w-full h-12 bg-muted/40 border-none rounded-2xl px-4 font-bold text-foreground text-xs focus:ring-2 focus:ring-primary/20 transition-all appearance-none"
                       value={novedadForm.tipo}
                       onChange={(e) =>
                         setNovedadForm({ ...novedadForm, tipo: e.target.value })
@@ -1893,7 +1893,7 @@ export default function ItemsPage() {
                       Estado del Item
                     </label>
                     <select
-                      className="w-full h-12 bg-primary/5 border border-primary/20 rounded-2xl px-4 font-black text-primary text-xs focus:ring-2 focus:ring-primary/20 transition-all"
+                      className="w-full h-12 bg-primary/5 border border-primary/20 rounded-2xl px-4 font-black text-primary text-xs focus:ring-2 focus:ring-primary/20 transition-all appearance-none"
                       value={novedadForm.itemNuevoEstado}
                       onChange={(e) =>
                         setNovedadForm({

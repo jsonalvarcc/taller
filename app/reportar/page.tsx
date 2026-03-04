@@ -385,7 +385,7 @@ export default function QuickReportPage() {
                         Tipo de Suceso
                       </label>
                       <select
-                        className="w-full h-16 bg-muted/40 border-none rounded-2xl px-6 font-bold text-foreground focus:ring-4 focus:ring-primary/10 transition-all"
+                        className="w-full h-16 bg-muted/40 border-none rounded-2xl px-6 font-bold text-foreground focus:ring-4 focus:ring-primary/10 transition-all appearance-none"
                         value={form.tipo}
                         onChange={(e) =>
                           setForm({ ...form, tipo: e.target.value })
@@ -410,7 +410,7 @@ export default function QuickReportPage() {
                         Nuevo Estado del Item
                       </label>
                       <select
-                        className="w-full h-16 bg-primary/5 border-2 border-primary/20 rounded-2xl px-6 font-black text-primary transition-all"
+                        className="w-full h-16 bg-primary/5 border-2 border-primary/20 rounded-2xl px-6 font-black text-primary transition-all appearance-none"
                         value={form.itemNuevoEstado}
                         onChange={(e) =>
                           setForm({ ...form, itemNuevoEstado: e.target.value })
